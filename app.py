@@ -1,7 +1,7 @@
 import os, sys, stackexchange
 
 from stackexchange import Site, StackOverflow, Sort
-from flask import Flask, request, Response, redirect
+from flask import Flask, request, Response, redirect, jsonify
 
 try:
     import config
@@ -26,11 +26,17 @@ def search():
     try:
         result = so.search(intitle=query, sort='relevance', order='desc')
     except SyntaxError:
-        return Response(('Please make sure your input is valid and not empty!'), mimetype='application/json')
+        return Response(
+            json.dumps(('Please make sure your input is valid and not empty!')),
+            content_type='application/json'
+            )
 
     formatted_result = map(get_result, result[:5])
 
-    return Response('\n'.join(formatted_result), mimetype='application/json')
+    return Response(
+        response=json.dumps('\n'.join(formatted_result)),
+        content_type='application/json'
+        )
 
 @app.route('/')
 def hello():
