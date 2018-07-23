@@ -26,11 +26,11 @@ def search():
     try:
         result = so.search(intitle=query, sort='relevance', order='desc')
     except SyntaxError:
-        return Response(('Please make sure your input is valid and not empty!'), content_type='application/json')
+        return Response(('Please make sure your input is valid and not empty!'), mimetype='application/json')
 
     formatted_result = map(get_result, result[:5])
 
-    return Response('\n'.join(formatted_result), content_type='application/json')
+    return Response('\n'.join(formatted_result), mimetype='application/json')
 
 @app.route('/')
 def hello():
