@@ -1,2 +1,3 @@
 # Matterflow
-Mattermost and Stack Overflow
+
+Matterflow is Stack Overflow built into Mattermost!
