@@ -1,0 +1,10 @@
+{
+    "name": "Matterflow",
+    "description": "Matterflow, Stack Overflow built into Mattermost!",
+    "keywords": [
+        "flask",
+        "python",
+        "stack overflow"
+    ],
+    "repository": "https://github.com/jackyliang/matterflow"
+}
