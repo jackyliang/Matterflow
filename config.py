@@ -1,3 +1,1 @@
-se = dict(
-    api_key = 'ly9YKFsGk6J*Yb5wWyef7A(('
-)
+SE_KEY = 'ly9YKFsGk6J*Yb5wWyef7A(('
