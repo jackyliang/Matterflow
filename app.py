@@ -22,15 +22,15 @@ def get_result(result):
 
 @app.route('/matterflow-search', methods=['post'])
 def search():
-    query = request.values.get('query')
+    query = request.values.get('text')
     try:
         result = so.search(intitle=query, sort='relevance', order='desc')
     except SyntaxError:
-        return Response(('Please make sure your input is valid and not empty!'), content_type='text/plain')
+        return Response(('Please make sure your input is valid and not empty!'), content_type='application/json')
 
     formatted_result = map(get_result, result[:5])
 
-    return Response('\n'.join(formatted_result), content_type='text/plain')
+    return Response('\n'.join(formatted_result), content_type='application/json')
 
 @app.route('/')
 def hello():
