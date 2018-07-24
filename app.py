@@ -16,10 +16,16 @@ if not se_key:
 so = SITE = StackAPI('stackoverflow')
 app = Flask(__name__)
 
+def get_answer_emoji(is_answered):
+    if is_answered == True:
+        return ':white_check_mark:'
+    else:
+        return ':x:'
+
 # Takes the JSON response and outputs the corresponding rows of the table
 def get_result(result):
     score = result['score']
-    is_answered = result['is_answered']
+    is_answered = get_answer_emoji(result['is_answered'])
     link = result['link']
     title = '[' + result['title'] + '](' + link + ')'
     ans_count = result['answer_count']
