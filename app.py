@@ -16,9 +16,11 @@ if not se_key:
 so = SITE = StackAPI('stackoverflow')
 app = Flask(__name__)
 
+# Takes the JSON response and outputs the corresponding rows of the table
 def get_result(result):
-    return '{} | {} | {} | {} | {}'.format(result['score'], result['is_answered'],  result['title'], result['answer_count'], result['link'])
+    return '| {} | {} | {} | {} | {} |'.format(result['score'], result['is_answered'],  result['title'], result['answer_count'], result['link'])
 
+# Queries the Stack Overflow Search API and returns a Markdown table of results
 @app.route('/search', methods=['post'])
 def search():
     query = request.values.get('text')
