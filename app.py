@@ -30,9 +30,8 @@ def search():
         return response
 
     if len(result) < 1:
-        # google_url = 'https://www.google.com/search?q=' + urllib.quote_plus(query) + '&as_sitesearch=stackoverflow.com'
-        # return jsonify({'text': 'No results!\nTry searching [Google](' + google_url + ') instead!'})
-        return jsonify({'text':'No results! Try using [Google](https://www.google.com)!'})
+        google_url = 'https://www.google.com/search?q=' + urllib.quote_plus(query) + '&as_sitesearch=stackoverflow.com'
+        return jsonify({'text': 'No results!\nTry searching [Google](' + google_url + ') instead!'})
 
     formatted_result = ['### Stack Overflow Answers For: ' + query]
     formatted_result.append('| Score | URL | Title |\n'
