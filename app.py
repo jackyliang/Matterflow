@@ -62,7 +62,7 @@ def generate_answers(answers):
 
 def question(query):
     try:
-        answers = so.fetch('questions/{ids}/answers', ids=[query], sort='activity', order='desc', filter='!9Z(-wyPr8')['items']
+        answers = so.fetch('questions/{ids}/answers', ids=[query], sort='votes', order='desc', filter='!9Z(-wyPr8')['items']
         title = so.fetch('questions/{ids}', ids=[query], sort='votes', order='desc')['items'][0]['title']
     except SyntaxError:
         response = jsonify({'text': 'Please make sure your input is valid and not empty!'})
