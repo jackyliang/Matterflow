@@ -13,8 +13,9 @@ if not se_key:
     print('Please make sure you have a config.py file!')
     sys.exit(0)
 
-so = SITE = StackAPI('stackoverflow')
+so = StackAPI('stackoverflow')
 app = Flask(__name__)
+COUNT = 5
 
 def get_answer_emoji(is_answered):
     if is_answered == True:
@@ -23,7 +24,7 @@ def get_answer_emoji(is_answered):
         return ':x:'
 
 # Takes the JSON response and outputs the corresponding rows of the table
-def get_result(result):
+def generate_search_results(result):
     score = result['score']
     is_answered = get_answer_emoji(result['is_answered'])
     link = result['link']
@@ -31,26 +32,36 @@ def get_result(result):
     ans_count = result['answer_count']
     return '| {} | {} | {} | {} |'.format(score, is_answered, title, ans_count, link)
 
-# Queries the Stack Overflow Search API and returns a Markdown table of results
-@app.route('/search', methods=['post'])
-def search():
-    query = request.values.get('text')
+def get_google_search(query):
+    google_url = 'https://www.google.com/search?q=' + urllib.parse.quote(query) + '&as_sitesearch=stackoverflow.com'
+    return 'No results!\nHere\'s a custom [Google](' + google_url + ') search!'
+
+def search(query):
     try:
         result = so.fetch('search', intitle=query, sort='relevance', order='desc')['items']
     except SyntaxError:
         response = jsonify({'text': 'Please make sure your input is valid and not empty!'})
         return response
 
-    if len(result) < 1:
-        google_url = 'https://www.google.com/search?q=' + urllib.parse.quote(query) + '&as_sitesearch=stackoverflow.com'
-        return jsonify({'text': 'No results!\nHere\'s a custom [Google](' + google_url + ') search!'})
-
     formatted_result = ['### Stack Overflow Answers For: ' + query]
-    formatted_result.append('| Score | Answered | Title | # of Answers |\n'
-                            '|:------|:---------|:------|:-------------|')
-    formatted_result.extend(map(get_result, result[:5]))
-    response = jsonify({'text': '\n'.join(formatted_result)})
-    return response
+
+    if len(result) < 1:
+        formatted_result.append(get_google_search(query))
+    else:
+        formatted_result.append('| Score | Answered | Title | # of Answers |\n'
+                                '|:-----:|:--------:|:------|:------------:|')
+        formatted_result.extend(map(generate_search_results, result[:COUNT]))
+
+    return jsonify({'text': '\n'.join(formatted_result)})
+
+# Queries the Stack Overflow Search API and returns a Markdown table of results
+@app.route('/so', methods=['post'])
+def stackoverflow():
+    values = request.values.get('text').split(' ', 1)
+    command = values[0]
+    query = values[1]
+    if command == 'search':
+        return search(query)
 
 @app.route('/')
 def hello():
