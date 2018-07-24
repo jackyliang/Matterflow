@@ -1,7 +1,7 @@
 import os, sys, stackexchange, json
 
 from stackexchange import Site, StackOverflow, Sort
-from flask import Flask, request, Response, redirect
+from flask import Flask, request, Response, redirect, jsonify
 
 try:
     import config
@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 def get_result(result):
     result_json = result.json
-    return ':arrow-up-small: {} | {} | {}'.format(result_json['score'], result.url, result.title)
+    return '{} | {} | {}'.format(result_json['score'], result.url, result.title)
 
 @app.route('/matterflow-search', methods=['post'])
 def search():
@@ -26,19 +26,11 @@ def search():
     try:
         result = so.search(intitle=query, sort='relevance', order='desc')
     except SyntaxError:
-        response = Response(
-            response=json.dumps('Please make sure your input is valid and not empty!'),
-            mimetype='application/json'
-        )
+        response = jsonify({'text': 'Please make sure your input is valid and not empty!'})
         return response
 
     formatted_result = map(get_result, result[:5])
-
-    response = Response(
-        response=json.dumps('\n'.join(formatted_result)),
-        mimetype='application/json'
-    )
-
+    response = jsonify({'text': '\n'.join(formatted_result)})
     return response
 
 @app.route('/')
