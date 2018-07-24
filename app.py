@@ -18,7 +18,12 @@ app = Flask(__name__)
 
 # Takes the JSON response and outputs the corresponding rows of the table
 def get_result(result):
-    return '| {} | {} | {} | {} | {} |'.format(result['score'], result['is_answered'],  result['title'], result['answer_count'], result['link'])
+    score = result['score']
+    is_answered = result['is_answered']
+    link = result['link']
+    title = '[' + result['title'] + '](' + link + ')'
+    ans_count = result['answer_count']
+    return '| {} | {} | {} | {} |'.format(score, is_answered, title, ans_count, link)
 
 # Queries the Stack Overflow Search API and returns a Markdown table of results
 @app.route('/search', methods=['post'])
@@ -35,8 +40,8 @@ def search():
         return jsonify({'text': 'No results!\nHere\'s a custom [Google](' + google_url + ') search!'})
 
     formatted_result = ['### Stack Overflow Answers For: ' + query]
-    formatted_result.append('| Score | Answered | Title | # of Answers | URL |\n'
-                            '|:------|:---------|:------|:-------------|:----|')
+    formatted_result.append('| Score | Answered | Title | # of Answers |\n'
+                            '|:------|:---------|:------|:-------------|')
     formatted_result.extend(map(get_result, result[:5]))
     response = jsonify({'text': '\n'.join(formatted_result)})
     return response
