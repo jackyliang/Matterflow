@@ -1,4 +1,4 @@
-import os, sys, stackexchange, json
+import os, sys, stackexchange, urllib
 
 from stackexchange import Site, StackOverflow, Sort
 from flask import Flask, request, Response, redirect, jsonify
@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 def get_result(result):
     result_json = result.json
-    return ':arrow-up-small: {} | {} | {}'.format(result_json['score'], result.url, result.title)
+    return ':arrow_up_small: {} | {} | {}'.format(result_json['score'], result.url, result.title)
 
 @app.route('/matterflow-search', methods=['post'])
 def search():
@@ -29,9 +29,18 @@ def search():
         response = jsonify({'text': 'Please make sure your input is valid and not empty!'})
         return response
 
+    print(len(result))
+
+    if len(result) < 1:
+        google_url = 'https://www.google.com/search?q=' + urllib.quote_plus(query) + '&as_sitesearch=stackoverflow.com'
+        return jsonify({'text': 'No results!\n'
+                                'Try searching [Google](' + google_url + ') instead!'
+
+        })
+
     formatted_result = ['### Stack Overflow Answers For: ' + query]
-    formatted_result.append('| Score | URL | Title |')
-    formatted_result.append('|:------|:----|:------|')
+    formatted_result.append('| Score | URL | Title |\n'
+                            '|:------|:----|:------|')
     formatted_result.extend(map(get_result, result[:5]))
     response = jsonify({'text': '\n'.join(formatted_result)})
     return response
