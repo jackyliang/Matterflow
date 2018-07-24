@@ -17,10 +17,9 @@ so = SITE = StackAPI('stackoverflow')
 app = Flask(__name__)
 
 def get_result(result):
-    print(result)
-    return ':arrow_up_small: {} | {} | {}'.format(result['score'], result['link'], result['title'])
+    return '{} | {} | {} | {} | {}'.format(result['score'], result['is_answered'],  result['title'], result['answer_count'], result['link'])
 
-@app.route('/matterflow-search', methods=['post'])
+@app.route('/search', methods=['post'])
 def search():
     query = request.values.get('text')
     try:
@@ -31,11 +30,11 @@ def search():
 
     if len(result) < 1:
         google_url = 'https://www.google.com/search?q=' + urllib.parse.quote(query) + '&as_sitesearch=stackoverflow.com'
-        return jsonify({'text': 'No results!\nTry searching [Google](' + google_url + ') instead!'})
+        return jsonify({'text': 'No results!\nHere\'s a custom [Google](' + google_url + ') search!'})
 
     formatted_result = ['### Stack Overflow Answers For: ' + query]
-    formatted_result.append('| Score | URL | Title |\n'
-                            '|:------|:----|:------|')
+    formatted_result.append('| Score | Answered | Title | # of Answers | URL |\n'
+                            '|:------|:---------|:------|:-------------|:----|')
     formatted_result.extend(map(get_result, result[:5]))
     response = jsonify({'text': '\n'.join(formatted_result)})
     return response
