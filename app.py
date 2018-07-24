@@ -40,8 +40,7 @@ def search(query):
     try:
         result = so.fetch('search', intitle=query, sort='relevance', order='desc')['items']
     except SyntaxError:
-        response = jsonify({'text': 'Please make sure your input is valid and not empty!'})
-        return response
+        return jsonify({'text': 'Please make sure your input is valid and not empty!'})
 
     formatted_result = ['### Stack Overflow Answers For: ' + query]
 
@@ -54,6 +53,26 @@ def search(query):
 
     return jsonify({'text': '\n'.join(formatted_result)})
 
+def generate_answers(answers):
+    score = answers['score']
+    is_answered = get_answer_emoji(answers['is_accepted'])
+    link = answers['link']
+    return '| {} | {} | {} |'.format(score, is_answered, link)
+
+def question(query):
+    try:
+        answers = so.fetch('questions/{ids}/answers', ids=[query], sort='activity', order='desc', filter='!9Z(-wyPr8')['items']
+        title = so.fetch('questions/{ids}', ids=[query], sort='activity', order='desc')['items'][0]['title']
+    except SyntaxError:
+        response = jsonify({'text': 'Please make sure your input is valid and not empty!'})
+        return response
+
+    formatted_result = ['### ' + title]
+    formatted_result.append('| Score | Answered | Link |\n'
+                            '|:-----:|:--------:|:-----|')
+    formatted_result.extend(map(generate_answers, answers[:COUNT]))
+    return jsonify({'text': '\n'.join(formatted_result)})
+
 # Queries the Stack Overflow Search API and returns a Markdown table of results
 @app.route('/so', methods=['post'])
 def stackoverflow():
@@ -62,6 +81,8 @@ def stackoverflow():
     query = values[1]
     if command == 'search':
         return search(query)
+    elif command == 'question':
+        return question(query)
 
 @app.route('/')
 def hello():
