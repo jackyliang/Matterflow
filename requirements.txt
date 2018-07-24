@@ -1,2 +1,2 @@
-py-stackexchange==2.2.7
 flask==1.0.2
+stackapi==0.1.9

@@ -1,6 +1,6 @@
-import os, sys, stackexchange, urllib
+import os, sys, urllib
 
-from stackexchange import Site, StackOverflow, Sort
+from stackapi import StackAPI
 from flask import Flask, request, Response, redirect, jsonify
 
 try:
@@ -13,24 +13,24 @@ if not se_key:
     print('Please make sure you have a config.py file!')
     sys.exit(0)
 
-so = Site(StackOverflow, se_key)
+so = SITE = StackAPI('stackoverflow')
 app = Flask(__name__)
 
 def get_result(result):
-    result_json = result.json
-    return ':arrow_up_small: {} | {} | {}'.format(result_json['score'], result.url, result.title)
+    print(result)
+    return ':arrow_up_small: {} | {} | {}'.format(result['score'], result['link'], result['title'])
 
 @app.route('/matterflow-search', methods=['post'])
 def search():
     query = request.values.get('text')
     try:
-        result = so.search(intitle=query, sort='relevance', order='desc')
+        result = so.fetch('search', intitle=query, sort='relevance', order='desc')['items']
     except SyntaxError:
         response = jsonify({'text': 'Please make sure your input is valid and not empty!'})
         return response
 
     if len(result) < 1:
-        google_url = 'https://www.google.com/search?q=' + urllib.quote_plus(query) + '&as_sitesearch=stackoverflow.com'
+        google_url = 'https://www.google.com/search?q=' + urllib.parse.quote(query) + '&as_sitesearch=stackoverflow.com'
         return jsonify({'text': 'No results!\nTry searching [Google](' + google_url + ') instead!'})
 
     formatted_result = ['### Stack Overflow Answers For: ' + query]
