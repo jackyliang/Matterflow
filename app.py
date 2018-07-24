@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 def get_result(result):
     result_json = result.json
-    return '{} | {} | {}'.format(result_json['score'], result.url, result.title)
+    return ':arrow-up-small: {} | {} | {}'.format(result_json['score'], result.url, result.title)
 
 @app.route('/matterflow-search', methods=['post'])
 def search():
@@ -29,7 +29,10 @@ def search():
         response = jsonify({'text': 'Please make sure your input is valid and not empty!'})
         return response
 
-    formatted_result = map(get_result, result[:5])
+    formatted_result = ['### Stack Overflow Answers For: ' + query]
+    formatted_result.append('| Score | URL | Title |')
+    formatted_result.append('|:------|:----|:------|')
+    formatted_result.extend(map(get_result, result[:5]))
     response = jsonify({'text': '\n'.join(formatted_result)})
     return response
 
