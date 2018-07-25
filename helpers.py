@@ -76,8 +76,8 @@ def question(query):
         response = jsonify({'text': 'Please make sure your input is valid and not empty!'})
         return response
 
-    formatted_result = ['### ' + title]
-    formatted_result.append('| Score | Answered | Link |\n'
+    formatted_result = ['### All Answers for ' + title]
+    formatted_result.append('| Score | Accepted | Link |\n'
                             '|:-----:|:--------:|:-----|')
     formatted_result.extend(map(generate_answers, answers[:COUNT]))
     return jsonify({'text': '\n'.join(formatted_result)})
