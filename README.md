@@ -65,7 +65,7 @@ You can also query the local application to test each endpoint
 
 **Important**: Make sure you have your StackExchange key entered under **Settings** -> **Config Var** within Heroku
 
-![](https://user-images.githubusercontent.com/4315746/43174113-379e9238-8f6d-11e8-8b4b-9a046937e223.png)
+![](https://user-images.githubusercontent.com/4315746/43175511-4817f0c6-8f74-11e8-87a0-75df0384315d.png)
 
 This gives you additional requests for querying Stack Exchange. This is necessary if your channel or organization uses this feature a lot.
 
