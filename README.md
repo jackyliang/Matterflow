@@ -45,6 +45,10 @@ Install local required files for the application
 
     $ pip install -r requirements.txt
 
+Rename `config.sample.py` to `config.py` and enter your StackExchange API key into `SE_KEY`
+
+    $ mv config.sample.py config.py
+
 Start the application! (That was easy)
 
     $ python app.py
