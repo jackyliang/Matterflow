@@ -74,20 +74,41 @@ def question(query):
     formatted_result.extend(map(generate_answers, answers[:COUNT]))
     return jsonify({'text': '\n'.join(formatted_result)})
 
-# Queries the Stack Overflow Search API and returns a Markdown table of results
+def invalid_command():
+    return jsonify({'text': 'Sorry, I do not recognize your command! Use `/so help` for a list of all available commands.'})
+
+def matterflow_help():
+    help_text = '''
+    ### Matterflow
+
+    Welcome to Matterflow, a Stack Overflow plugin for Mattermost!
+
+    This integration offers functionality such as:
+    - [/search](http://api.stackexchange.com/docs/answers-on-questions) `<search query>` - Get all the results for a certain search query
+    - [/question](http://api.stackexchange.com/docs/answers-by-ids) `<question ID>` - Get all the answers for a specific question ID (which can be retrieved by `/search`)
+    - and more to come!
+
+    Created by Jacky Liang at https://github.com/jackyliang/Matterflow
+    '''
+    return jsonify({'text': help_text})
+
+# TODO
 @app.route('/so', methods=['post'])
 def stackoverflow():
     values = request.values.get('text').split(' ', 1)
-    command = values[0]
-    query = values[1]
+    command = values[0] # Matterflow command
     if command == 'search':
-        return search(query)
+        return search(values[1])
     elif command == 'question':
-        return question(query)
+        return question(values[1])
+    elif command == 'help':
+        return matterflow_help()
+    else:
+        return invalid_command()
 
 @app.route('/')
 def hello():
-    return Response('Hello!')
+    return Response('Looks like you shouldn\'t be here! Check out the repo instead: https://github.com/jackyliang/Matterflow')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
