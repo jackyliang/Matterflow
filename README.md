@@ -56,6 +56,19 @@ Query the local application
 
 This gives you additional requests for querying Stack Exchange. This is necessary if your channel or organization uses this feature a lot.
 
+**Pro tip:** You can enable Heroku auto-deployment by connecting it to the Github repo. Everytime you push to the repo, Heroku will deploy automatically.
+
+![](https://user-images.githubusercontent.com/4315746/43174172-73d0e4e0-8f6d-11e8-896c-f1f04acfc0c5.png)
+
+### I need help debugging..
+
+When developing a new command, you may run into issues with querying the API either in Heroku or Mattermost. To debug these API issues, I highly recommend using Heroku's **View logs** feature under:
+
+![](https://user-images.githubusercontent.com/4315746/43174316-3e04f058-8f6e-11e8-95ef-707cd50a538e.png)
+
+Additionally, you can also debug Mattermost request issues through the **System Console** -> **Logging**
+
+![](https://user-images.githubusercontent.com/4315746/43174358-7bca18e6-8f6e-11e8-9ffa-157dfe2a474b.png)
 
 ### How can I contribute?
 
