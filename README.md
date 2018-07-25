@@ -4,7 +4,7 @@ Welcome to Matterflow, a Stack Overflow integration built into Mattermost!
 
 ![matterflow_demo](https://user-images.githubusercontent.com/4315746/43174571-accb2722-8f6f-11e8-813a-fb0da88b5db7.gif)
 
-### How do I use Matterflow?
+## How do I use Matterflow?
 
 We currently offer the following functionality, with more to come:
 
@@ -14,7 +14,7 @@ We currently offer the following functionality, with more to come:
 - /help - For when you get lost. It's okay, we're all a little lost sometimes :)
 - and more to come!
 
-### How can I install Matterflow in my Mattermost channel?
+## How can I install Matterflow in my Mattermost channel?
 
 1. Go to your **Channel**
 2. Navigate to the **Main Menu** dropdown
@@ -31,7 +31,7 @@ We currently offer the following functionality, with more to come:
 - Autocomplete Hint: `'help' for all available commands!`
 - Autocomplete Description: `Stack Overflow for Mattermost`
 
-### How do I further develop this integration?
+## How do I further develop this integration?
 
 Clone it to your machine
 
@@ -55,7 +55,7 @@ You can also query the local application to test each endpoint
     $ curl -XPOST -d 'text=help' 'http://0.0.0.0:5000/so'
 
 
-### How do I deploy this integration?
+## How do I deploy this integration?
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
@@ -69,7 +69,7 @@ This gives you additional requests for querying Stack Exchange. This is necessar
 
 ![](https://user-images.githubusercontent.com/4315746/43174172-73d0e4e0-8f6d-11e8-896c-f1f04acfc0c5.png)
 
-### I need help debugging..
+## I need help debugging..
 
 When developing a new command, you may run into issues with querying the API either in Heroku or Mattermost. To debug these API issues, I highly recommend using Heroku's **View logs** feature under:
 
@@ -79,7 +79,7 @@ Additionally, you can also debug Mattermost request issues through the **System 
 
 ![](https://user-images.githubusercontent.com/4315746/43174358-7bca18e6-8f6e-11e8-9ffa-157dfe2a474b.png)
 
-### How can I contribute?
+## How can I contribute?
 
 Feel free to file bugs and makes suggestions with [Github Issues](https://github.com/jackyliang/Matterflow/issues)!
 
