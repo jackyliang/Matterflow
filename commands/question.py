@@ -9,6 +9,9 @@ def generate_answers(answers):
     return '| {} | {} | {} |'.format(score, is_answered, link)
 
 # Gets all the answers given a question ID and generates a Markdown table
+# Uses the following Stack Exchange APIs:
+# - https://api.stackexchange.com/docs/answers-on-questions
+# - https://api.stackexchange.com/docs/answers-by-ids
 def search_by_id(so, query):
     if not query:
         return jsonify({'text': 'Please make sure your input is valid and not empty!'})

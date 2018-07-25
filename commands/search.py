@@ -1,3 +1,5 @@
+import urllib
+
 from urllib import parse
 from flask import jsonify
 from helpers import COUNT, get_answer_emoji
@@ -18,6 +20,7 @@ def get_google_search(query):
     return 'No results! But I created a [Google](' + google_url + ') search for you instead!'
 
 # Gets all the questions of given search terms and generates a Markdown table
+# Uses this StackExchange API: https://api.stackexchange.com/docs/search
 def search(so, query):
     if not query:
         return jsonify({'text': 'Please make sure your input is valid and not empty!'})

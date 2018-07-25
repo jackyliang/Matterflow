@@ -1,4 +1,6 @@
 import os
+import sys
+import helpers
 
 from stackapi import StackAPI
 from flask import Flask, request, redirect
@@ -21,14 +23,15 @@ app = Flask(__name__)
 so = StackAPI('stackoverflow', key=se_key)
 
 # Main route that processes all incoming commands and queries to Matterflow
-# All helper methods are stored in helpers.py for organization sake
+# All commands are stored under the /commands folder for modularity sake
 @app.route('/so', methods=['post'])
 def stackoverflow():
-    values = request.values.get('text').split(' ', 1)
-    command = values[0] # Matterflow command
+    input_val = request.values.get('text').split(' ', 1)
+    command = input_val[0] # The command i.e. 'search' or 'help'
 
     try:
-        query = values[1]
+        query = input_val[1] # Attempts to coerce a query, but not all commands
+                             # contain queries, so set an empty string instead for those cases
     except IndexError:
         query = ''
 
@@ -47,6 +50,7 @@ def stackoverflow():
 def woops():
     return redirect('https://github.com/jackyliang/Matterflow')
 
+# Local environment configurations
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
