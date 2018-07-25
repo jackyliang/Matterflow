@@ -2,14 +2,16 @@
 
 Welcome to Matterflow, a Stack Overflow integration built into Mattermost!
 
+![matterflow_demo](https://user-images.githubusercontent.com/4315746/43174571-accb2722-8f6f-11e8-813a-fb0da88b5db7.gif)
+
 ### How do I use Matterflow?
 
-We currently offer the following functionality, with more to come.
+We currently offer the following functionality, with more to come:
 
-This integration offers functionality such as:
 - [/search](http://api.stackexchange.com/docs/answers-on-questions) `<search query>` - Get all the results for a certain search query
 - [/question](http://api.stackexchange.com/docs/answers-by-ids) `<question ID>` - Get all the answers for a specific question ID (which can be retrieved by `/search`)
 - [/ask](https://stackoverflow.com/questions/ask) - Gets a link for you to ask a question on Stack Overflow
+- /help - For when you get lost. It's okay, we're all a little lost sometimes :)
 - and more to come!
 
 ### How can I install Matterflow in my Mattermost channel?
@@ -26,21 +28,28 @@ This integration offers functionality such as:
 - Request Method: `POST`
 - Response Username: `Matterflow`
 - Autocomplete: :white_check_mark:
-- Autocomplete Hint: `help` for all available commands!
-- Autocomplete Description: Stack Overflow for Mattermost
+- Autocomplete Hint: `'help' for all available commands!`
+- Autocomplete Description: `Stack Overflow for Mattermost`
 
 ### How do I further develop this integration?
+
+Clone it to your machine
+
+    $ git clone git@github.com:jackyliang/Matterflow.git matterflow
+
+Navigate to the directory
+
+    $ cd matterflow
 
 Install local required files for the application
 
     $ pip install -r requirements.txt
 
-Start the application
+Start the application! (That was easy)
 
     $ python app.py
 
-
-Query the local application
+You can also query the local application to test each endpoint
 
     $ curl -XPOST -d 'text=search python array' 'http://0.0.0.0:5000/so'
     $ curl -XPOST -d 'text=help' 'http://0.0.0.0:5000/so'
