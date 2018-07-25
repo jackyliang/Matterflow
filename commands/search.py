@@ -23,7 +23,7 @@ def get_google_search(query):
 # Uses this StackExchange API: https://api.stackexchange.com/docs/search
 def search(so, query):
     if not query:
-        return jsonify({'text': 'Please make sure your input is valid and not empty!'})
+        return jsonify({'text': 'I can\'t search for nothing! Please make sure your input is valid and not empty.'})
 
     result = so.fetch('search', intitle=query, sort='relevance', order='desc')['items']
 

@@ -14,7 +14,7 @@ def generate_answers(answers):
 # - https://api.stackexchange.com/docs/answers-by-ids
 def search_by_id(so, query):
     if not query:
-        return jsonify({'text': 'Please make sure your input is valid and not empty!'})
+        return jsonify({'text': 'I can\'t search for nothing! Please make sure your input is valid and not empty.'})
 
     answers = so.fetch('questions/{ids}/answers', ids=[query], sort='votes', order='desc', filter='!9Z(-wyPr8')['items']
     question_details = so.fetch('questions/{ids}', ids=[query], sort='votes', order='desc')['items']
