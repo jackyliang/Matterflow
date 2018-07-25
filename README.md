@@ -52,7 +52,7 @@ Query the local application
 
 **Important**: Make sure you have your StackExchange key entered under **Settings** -> **Config Var** within Heroku
 
-![](https://imgur.com/a/a41htQP)
+![](https://imgur.com/EEh1Rze)
 
 This gives you additional requests for querying Stack Exchange. This is necessary if your channel or organization uses this feature a lot.
 
