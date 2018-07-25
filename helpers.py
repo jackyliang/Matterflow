@@ -56,7 +56,7 @@ def search(query):
     except SyntaxError:
         return jsonify({'text': 'Please make sure your input is valid and not empty!'})
 
-    formatted_result = ['### Stack Overflow Answers For: ' + query]
+    formatted_result = ['### Stack Overflow Questions For: ' + query]
 
     if len(result) < 1:
         formatted_result.append(get_google_search(query))
