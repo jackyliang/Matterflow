@@ -35,7 +35,13 @@ def generate_search_results(result):
 
 def get_google_search(query):
     google_url = 'https://www.google.com/search?q=' + urllib.parse.quote(query) + '&as_sitesearch=stackoverflow.com'
-    return 'No results!\nHere\'s a custom [Google](' + google_url + ') search!'
+    return 'No results! But I created a [Google](' + google_url + ') search for you instead!'
+
+def generate_answers(answers):
+    score = answers['score']
+    is_answered = get_answer_emoji(answers['is_accepted'])
+    link = answers['link']
+    return '| {} | {} | {} |'.format(score, is_answered, link)
 
 def search(query):
     try:
@@ -54,12 +60,6 @@ def search(query):
 
     return jsonify({'text': '\n'.join(formatted_result)})
 
-def generate_answers(answers):
-    score = answers['score']
-    is_answered = get_answer_emoji(answers['is_accepted'])
-    link = answers['link']
-    return '| {} | {} | {} |'.format(score, is_answered, link)
-
 def question(query):
     try:
         answers = so.fetch('questions/{ids}/answers', ids=[query], sort='votes', order='desc', filter='!9Z(-wyPr8')['items']
@@ -74,23 +74,23 @@ def question(query):
     formatted_result.extend(map(generate_answers, answers[:COUNT]))
     return jsonify({'text': '\n'.join(formatted_result)})
 
+def matterflow_help():
+    help_text = ('### Matterflow\n'
+    'Welcome to Matterflow, a Stack Overflow plugin for Mattermost!\n'
+    'This integration offers functionality such as:\n'
+    '- [/search](http://api.stackexchange.com/docs/answers-on-questions) `<search query>` - Get all the results for a certain search query\n'
+    '- [/question](http://api.stackexchange.com/docs/answers-by-ids) `<question ID>` - Get all the answers for a specific question ID (which can be retrieved by `/search`)\n'
+    '- and more to come!\n'
+    'Created by Jacky Liang at https://github.com/jackyliang/Matterflow\n')
+
+    return jsonify({'text': help_text})
+
+def ask():
+    ask_so_question = 'Can\'t find what you are looking for? Click [me](https://stackoverflow.com/questions/ask) to ask a question on Stack Overflow!'
+    return jsonify({'text': ask_so_question})
+
 def invalid_command():
     return jsonify({'text': 'Sorry, I do not recognize your command! Use `/so help` for a list of all available commands.'})
-
-def matterflow_help():
-    help_text = '''
-    ### Matterflow
-
-    Welcome to Matterflow, a Stack Overflow plugin for Mattermost!
-
-    This integration offers functionality such as:
-    - [/search](http://api.stackexchange.com/docs/answers-on-questions) `<search query>` - Get all the results for a certain search query
-    - [/question](http://api.stackexchange.com/docs/answers-by-ids) `<question ID>` - Get all the answers for a specific question ID (which can be retrieved by `/search`)
-    - and more to come!
-
-    Created by Jacky Liang at https://github.com/jackyliang/Matterflow
-    '''
-    return jsonify({'text': help_text})
 
 # TODO
 @app.route('/so', methods=['post'])
@@ -103,6 +103,8 @@ def stackoverflow():
         return question(values[1])
     elif command == 'help':
         return matterflow_help()
+    elif command == 'ask':
+        return ask()
     else:
         return invalid_command()
 
